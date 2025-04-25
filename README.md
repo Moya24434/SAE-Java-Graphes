@@ -2,5 +2,5 @@
 - Osman Söbe
 - Noyan Taylan
 - Mohammed-Yassine
-- Yacoub
+- Yacoub Cherief
 - Arvinth 
