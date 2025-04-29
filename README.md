@@ -1,6 +1,6 @@
 ## Équipe
 - Osman Söbe
 - Noyan Taylan
-- Mohammed-Yassine
+- Mohammed-Yassine Arkha
 - Yacoub Cherief
 - Arvinth 
