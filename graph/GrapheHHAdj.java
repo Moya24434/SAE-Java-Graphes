@@ -1,24 +1,39 @@
 package graph;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GrapheHHAdj implements VarGraph {
 
+	// Représentation du graphe : un sommet -> liste de ses arcs sortants
+	private Map<String, List<Arc<String>>> adjacence;
+
+	public GrapheHHAdj() {
+		this.adjacence = new HashMap<>();
+	}
+
 	@Override
 	public List<Arc<String>> getSucc(String s) {
-		// TODO Auto-generated method stub
-		return null;
+		return adjacence.getOrDefault(s,new ArrayList<>());
 	}
 
 	@Override
 	public void ajouterSommet(String noeud) {
-		// TODO Auto-generated method stub
-		
+		if (!adjacence.containsKey(noeud)) {
+			adjacence.put(noeud, new ArrayList<Arc<String>>());
+		}
 	}
 
 	@Override
 	public void ajouterArc(String source, String destination, Integer valeur) {
-		// TODO Auto-generated method stub
+		//si les sommmets n'existent pas on les créer
+		if (!adjacence.containsKey(source))
+			ajouterSommet(source);
+		if (!adjacence.containsKey(destination))
+			ajouterSommet(destination);
+		adjacence.get(source).add(new Arc<>(valeur,destination));
 		
 	}
 
