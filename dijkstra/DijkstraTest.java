@@ -8,16 +8,17 @@ import graph.Graph;
 import graph.GrapheHHAdj;
 import graph.ShortestPath.Distances;
 import graph.VarGraph;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class DijkstraTest {
+
+public class DijkstraTest {
 	private static final String FROM = "A";
 	private static final String TO = "F"; 
 	private static final int EXPECTED_DIST = 5; 
 	private static final List<String> EXPECTED_PATH = List.of("F", "E", "B", "D", "A"); // in pred order
 
 	@Test
-	void test() {
+    public void test() {
 		VarGraph g = new GrapheHHAdj();
 		g.peupler("A-B(6), A-C(1), A-D(2), B-E(1), C-E(4), D-B(1), E-F(1)");
 		tester(g);
