@@ -51,6 +51,9 @@ public class Dijkstra<T> implements ShortestPath<T> {
 			animator.accept(u, current.distance);
 
 			for (Graph.Arc<T> arc : g.getSucc(u)) {
+				if (arc.val() < 0) {
+					throw new IllegalArgumentException("Arc de poids négatif détecté");
+				}
 				T v = arc.dst();
 				int weight = arc.val();
 				int newDist = dist.get(u) + weight;

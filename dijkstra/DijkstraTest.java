@@ -34,4 +34,22 @@ public class DijkstraTest {
 		}
 		assertNull(c);
 	}
+
+	@Test
+	public void testBoucle() {
+		VarGraph g = new GrapheHHAdj();
+		g.peupler("A-A(3), A-B(1), B-C(2), C-D(1)");
+		Distances<String> dst = new Dijkstra<String>().compute(g, "A");
+
+		assertEquals(0, dst.dist().get("A"));
+		assertEquals(1, dst.dist().get("B"));
+		assertEquals(3, dst.dist().get("C"));
+		assertEquals(4, dst.dist().get("D"));
+
+		assertNull(dst.pred().get("A"));
+		assertEquals("A", dst.pred().get("B"));
+		assertEquals("B", dst.pred().get("C"));
+		assertEquals("C", dst.pred().get("D"));
+	}
 }
+
