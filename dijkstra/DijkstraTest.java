@@ -37,19 +37,50 @@ public class DijkstraTest {
 
     @Test
     public void testBoucle() {
+        // Graphe avec une boucle sur A, et un chemin A → B → C → D
         VarGraph g = new GrapheHHAdj();
         g.peupler("A-A(3), A-B(1), B-C(2), C-D(1)");
+
+        // Calcul des plus courts chemins depuis A
         Distances<String> dst = new Dijkstra<String>().compute(g, "A");
 
-        assertEquals(0, dst.dist().get("A"));
-        assertEquals(1, dst.dist().get("B"));
-        assertEquals(3, dst.dist().get("C"));
+        // Vérifie les distances minimales depuis A
+        assertEquals(0, dst.dist().get("A")); // Distance de A à A = 0
+        assertEquals(1, dst.dist().get("B")); // A-B = 1
+        assertEquals(3, dst.dist().get("C")); // A-B-C = 1+2
+        assertEquals(4, dst.dist().get("D")); // A-B-C-D = 1+2+1
+
+        // Vérifie les prédécesseurs pour chaque sommet
+        assertNull(dst.pred().get("A"));        // A est la source
+        assertEquals("A", dst.pred().get("B")); // B vient de A
+        assertEquals("B", dst.pred().get("C")); // C vient de B
+        assertEquals("C", dst.pred().get("D")); // D vient de C
+    }
+
+    @Test
+    public void testCheminsMultiples() {
+        VarGraph g = new GrapheHHAdj();
+        g.peupler("A-B(2), A-C(2), B-D(2), C-D(2)");
+        Distances<String> dst = new Dijkstra<String>().compute(g, "A");
+
+        // Distance minimale correcte vers D (via B ou C)
         assertEquals(4, dst.dist().get("D"));
 
-        assertNull(dst.pred().get("A"));
-        assertEquals("A", dst.pred().get("B"));
-        assertEquals("B", dst.pred().get("C"));
-        assertEquals("C", dst.pred().get("D"));
+        // Le prédécesseur de D peut être B ou C, les deux sont valides
+        String predD = dst.pred().get("D");
+        assertTrue(predD.equals("B") || predD.equals("C"));
+
+        // Chemins valides possibles : A-B-D ou A-C-D
+        if (predD.equals("B")) {
+            assertEquals("A", dst.pred().get("B"));
+        } else {
+            assertEquals("A", dst.pred().get("C"));
+        }
+
+        // Vérification des distances de tous les sommets
+        assertEquals(0, dst.dist().get("A"));
+        assertEquals(2, dst.dist().get("B"));
+        assertEquals(2, dst.dist().get("C"));
     }
 }
 
